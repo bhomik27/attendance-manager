@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+    <title>Student Attendance</title>
+  </head>
+  <body>
+    <nav>
+      <h1>Attendance Manager</h1>
+      <label for="date">Select a Date:</label>
+      <input type="date" id="date" name="date" required />
+      <button onClick="getAttendance" id="search-button">Search</button>
+      <button onClick="getAttendanceReport" id="attendance-report-button"> Attendance Report</button>
+    </nav>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="main.js"></script>
+  </body>
+</html>
