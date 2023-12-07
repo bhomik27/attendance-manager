@@ -35,19 +35,13 @@ async function getAttendance() {
             console.log(`No attendance data found for ${selectedDate}`);
             displayStudents(selectedDate);
         }
+
+        
     } catch (error) {
         console.error('Error fetching attendance data:', error);
     }
 }
 
-
-window.addEventListener("DOMContentLoaded", async () => {
-    const attendance = [
-        {
-            date, students
-        }
-    ]
-})
 
 function displayStudents() {
 
@@ -374,7 +368,3 @@ function createAttendanceTable(selectedDate, attendanceData) {
 document.getElementById('search-button').addEventListener('click', getAttendance);
 document.getElementById('attendance-report-button').addEventListener('click', getAttendanceReport);
 
-
-document.addEventListener('DOMContentLoaded', function () {
-    // Initial actions upon DOMContentLoaded
-});
