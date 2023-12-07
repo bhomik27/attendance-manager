@@ -5,15 +5,12 @@ const students = [
     { name: 'deepak', attendance: [] },
     { name: 'gaurav', attendance: [] },
     { name: 'harsh', attendance: [] }
-    // { name: 'jai', attendance: [] },
-    // { name: 'kirti', attendance: [] },
-    // { name: 'lovesh', attendance: [] }
 ];
 
-let currentAttendance = null;
-let attendanceTable;
 
-
+//function to check if attendance for the day and take actions accordingly
+//if attedance data matches the date selected than displayStudents 
+//else display the attendance result of that day 
 async function getAttendance() {
     const selectedDate = document.getElementById('date').value;
 
@@ -43,9 +40,9 @@ async function getAttendance() {
 }
 
 
+
+//function to show student attendance form on front-end
 function displayStudents() {
-
-
     const attendanceContainer = document.createElement('div');
     attendanceContainer.id = 'attendance-container';
 
@@ -113,7 +110,6 @@ function displayStudents() {
 
     body.appendChild(attendanceContainer);
 
-    removeExistingDateMessage(selectedDate);
 
 
     const existingDateMessage = document.querySelector(`p[data-date="${selectedDate}"]`);
@@ -121,22 +117,16 @@ function displayStudents() {
     if (existingDateMessage) {
         existingDateMessage.remove();
     }
-
 
     attendanceContainer.appendChild(dateMessage);
 }
 
 
 
-function removeExistingDateMessage(selectedDate) {
-    const existingDateMessage = document.querySelector(`p[data-date="${selectedDate}"]`);
-    if (existingDateMessage) {
-        existingDateMessage.remove();
-    }
-}
 
 
 
+//function to post attendanceDate to server using axios POST request 
 async function submitAttendance() {
     const selectedDate = document.getElementById('date').value;
     const attendanceData = [];
@@ -158,20 +148,15 @@ async function submitAttendance() {
         console.log('Attendance data sent to the server:', response.data);
 
         getAttendance(); // Refresh attendance display after submission
-        removeInputElements();
     } catch (error) {
         console.error('Error sending attendance data:', error);
     }
 }
 
 
-function removeInputElements() {
-    const attendanceContainer = document.getElementById('attendance-container');
-    if (attendanceContainer) {
-        attendanceContainer.remove();
-    }
-}
 
+
+//function to get the attendanceData from the server 
 async function getAttendanceReport() {
     try {
         const response = await axios.get(`http://localhost:3000/attendance/attendanceData`);
@@ -207,8 +192,9 @@ async function getAttendanceReport() {
     }
 }
 
-function displayAttendanceReport(attendanceReport) {
 
+//function to print attendance report on front-end in tabular form 
+function displayAttendanceReport(attendanceReport) {
     const existingAttendanceReport = document.getElementById('attendance-report');
     const existingAttendanceContainer = document.getElementById('attendance-container');
     const existingAttendanceTable = document.getElementById('attendance-table');
@@ -278,7 +264,7 @@ function displayAttendanceReport(attendanceReport) {
 
 
 
-
+//function to print attendance oif the sekected date in front-end 
 function displayAttendance(selectedDate, attendanceData) {
     const body = document.querySelector('body');
 
@@ -305,7 +291,11 @@ function displayAttendance(selectedDate, attendanceData) {
     attendanceTable.id = 'attendance-table';
     body.appendChild(attendanceTable);
 
-    removeExistingDateMessage(selectedDate);
+    const existingDateMessage = document.querySelector(`p[data-date="${selectedDate}"]`);
+
+    if (existingDateMessage) {
+        existingDateMessage.remove();
+    }
 
     const dateMessage = document.createElement('p');
     dateMessage.textContent = `Attendance for ${selectedDate}:`;
@@ -314,14 +304,14 @@ function displayAttendance(selectedDate, attendanceData) {
 }
 
 
-
+//utlity func to get the attendance data status if everty student 
 function getStudentAttendance(studentName, selectedDate, attendanceData) {
     const studentAttendance = attendanceData.find(entry => entry.name === studentName);
     return studentAttendance ? studentAttendance.status : null;
 }
 
 
-
+//function to create attendance table 
 function createAttendanceTable(selectedDate, attendanceData) {
     const attendanceTable = document.createElement('table');
     attendanceTable.id = 'attendance-table';
@@ -363,8 +353,4 @@ function createAttendanceTable(selectedDate, attendanceData) {
     return attendanceTable;
 }
 
-
-
-document.getElementById('search-button').addEventListener('click', getAttendance);
-document.getElementById('attendance-report-button').addEventListener('click', getAttendanceReport);
 
