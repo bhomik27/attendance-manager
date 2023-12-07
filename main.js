@@ -17,9 +17,8 @@ let attendanceTable;
 async function getAttendance() {
     const selectedDate = document.getElementById('date').value;
 
-
     try {
-        const response = await axios.get('https://crudcrud.com/api/4a1cfc0b439240a09cd433c7d880719c/attendanceData');
+        const response = await axios.get(`http://localhost:3000/attendance/attendanceData`);
         const attendanceData = response.data;
 
         let attendanceFound = false;
@@ -36,13 +35,10 @@ async function getAttendance() {
             console.log(`No attendance data found for ${selectedDate}`);
             displayStudents(selectedDate);
         }
-
     } catch (error) {
         console.error('Error fetching attendance data:', error);
-        // Handle any errors that occur during the GET request
     }
 }
-
 
 
 window.addEventListener("DOMContentLoaded", async () => {
@@ -60,18 +56,21 @@ function displayStudents() {
     attendanceContainer.id = 'attendance-container';
 
     const existingAttendanceReport = document.getElementById('attendance-report');
-    const existingattendanceContainer = document.getElementById('attendance-container');
-    const existingattendanceTable = document.getElementById('attendance-table');
+    const existingAttendanceContainer = document.getElementById('attendance-container');
+    const existingAttendanceTable = document.getElementById('attendance-table');
 
     if (existingAttendanceReport) {
+        existingAttendanceReport.remove();
         existingAttendanceReport.innerHTML = '';
     }
 
-    if (existingattendanceContainer) {
-        existingattendanceContainer.innerHTML = '';
+    if (existingAttendanceContainer) {
+        existingAttendanceContainer.remove();
+        existingAttendanceContainer.innerHTML = '';
     }
-    if (existingattendanceTable) {
-        existingattendanceTable.innerHTML = '';
+    if (existingAttendanceTable) {
+        existingAttendanceTable.remove();
+        existingAttendanceTable.innerHTML = '';
     }
 
 
@@ -117,23 +116,14 @@ function displayStudents() {
     dateMessage.setAttribute('data-date', selectedDate);
 
     const body = document.querySelector('body');
-    const existingAttendanceContainer = document.getElementById('attendance-container');
-
-    if (existingAttendanceContainer) {
-        existingAttendanceContainer.remove();
-    }
 
     body.appendChild(attendanceContainer);
 
     removeExistingDateMessage(selectedDate);
 
 
-    const existingTable = document.getElementById('attendance-table');
     const existingDateMessage = document.querySelector(`p[data-date="${selectedDate}"]`);
 
-    if (existingTable) {
-        existingTable.remove();
-    }
     if (existingDateMessage) {
         existingDateMessage.remove();
     }
@@ -166,11 +156,10 @@ async function submitAttendance() {
     });
 
     try {
-        const response = await axios.post('https://crudcrud.com/api/4a1cfc0b439240a09cd433c7d880719c/attendanceData', {
+        const response = await axios.post(`http://localhost:3000/attendance/attendanceData`, {
             date: selectedDate,
             data: attendanceData
         });
-
 
         console.log('Attendance data sent to the server:', response.data);
 
@@ -182,7 +171,6 @@ async function submitAttendance() {
 }
 
 
-
 function removeInputElements() {
     const attendanceContainer = document.getElementById('attendance-container');
     if (attendanceContainer) {
@@ -192,7 +180,7 @@ function removeInputElements() {
 
 async function getAttendanceReport() {
     try {
-        const response = await axios.get('https://crudcrud.com/api/4a1cfc0b439240a09cd433c7d880719c/attendanceData');
+        const response = await axios.get(`http://localhost:3000/attendance/attendanceData`);
         const attendanceData = response.data;
 
         const attendanceReport = {};
@@ -227,14 +215,22 @@ async function getAttendanceReport() {
 
 function displayAttendanceReport(attendanceReport) {
 
-    const existingattendanceContainer = document.getElementById('attendance-container');
-    const existingattendanceTable = document.getElementById('attendance-table');
+    const existingAttendanceReport = document.getElementById('attendance-report');
+    const existingAttendanceContainer = document.getElementById('attendance-container');
+    const existingAttendanceTable = document.getElementById('attendance-table');
 
-    if (existingattendanceContainer) {
-        existingattendanceContainer.innerHTML = '';
+    if (existingAttendanceReport) {
+        existingAttendanceReport.remove();
+        existingAttendanceReport.innerHTML = '';
     }
-    if (existingattendanceTable) {
-        existingattendanceTable.innerHTML = '';
+
+    if (existingAttendanceContainer) {
+        existingAttendanceContainer.remove();
+        existingAttendanceContainer.innerHTML = '';
+    }
+    if (existingAttendanceTable) {
+        existingAttendanceTable.remove();
+        existingAttendanceTable.innerHTML = '';
     }
 
 
@@ -293,19 +289,22 @@ function displayAttendance(selectedDate, attendanceData) {
     const body = document.querySelector('body');
 
     const existingAttendanceReport = document.getElementById('attendance-report');
-    const existingattendanceContainer = document.getElementById('attendance-container');
-    const existingattendanceTable = document.getElementById('attendance-table');
+    const existingAttendanceContainer = document.getElementById('attendance-container');
+    const existingAttendanceTable = document.getElementById('attendance-table');
 
     if (existingAttendanceReport) {
+        existingAttendanceReport.remove();
         existingAttendanceReport.innerHTML = '';
     }
-    if (existingattendanceContainer) {
-        existingattendanceContainer.innerHTML = '';
-    }
-    if (existingattendanceTable) {
-        existingattendanceTable.innerHTML = '';
-    }
 
+    if (existingAttendanceContainer) {
+        existingAttendanceContainer.remove();
+        existingAttendanceContainer.innerHTML = '';
+    }
+    if (existingAttendanceTable) {
+        existingAttendanceTable.remove();
+        existingAttendanceTable.innerHTML = '';
+    }
 
 
     const attendanceTable = createAttendanceTable(selectedDate, attendanceData);
